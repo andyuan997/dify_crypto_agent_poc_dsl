@@ -1,0 +1,225 @@
+app:
+  description: 加密貨幣機器人
+  icon: '+1'
+  icon_background: '#FFEAD5'
+  mode: agent-chat
+  name: Ai Agent 專案分享
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/azure_openai:0.0.8@59c461863a2753aaa07c3fad5831b2026232920342cced3781f94ae92d220eb4
+kind: app
+model_config:
+  agent_mode:
+    enabled: true
+    max_iteration: 5
+    prompt: null
+    strategy: function_call
+    tools:
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: 57acfcd5-d587-4b26-b3f8-9e7c5c040cb0
+      provider_name: get_crypto_price_now
+      provider_type: workflow
+      tool_label: get_crypto_price_now
+      tool_name: get_crypto_price_now
+      tool_parameters:
+        coin: ''
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: baba5aad-5f64-41d1-8c4d-f05426100825
+      provider_name: get_crypto_history_price
+      provider_type: workflow
+      tool_label: get_crypto_history_price
+      tool_name: get_crypto_history_price
+      tool_parameters:
+        coin: ''
+        date: ''
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: time
+      provider_name: time
+      provider_type: builtin
+      tool_label: Current Time
+      tool_name: current_time
+      tool_parameters:
+        format: ''
+        timezone: ''
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: 1ece4793-d3d5-4d87-b9af-e321939f4f32
+      provider_name: wikipedia_search
+      provider_type: workflow
+      tool_label: wikipedia_search
+      tool_name: wikipedia_search
+      tool_parameters:
+        data: ''
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: ff86e57d-506a-45c5-b68d-51450c94b30d
+      provider_name: get_crypto_news
+      provider_type: workflow
+      tool_label: get_crypto_news
+      tool_name: get_crypto_news
+      tool_parameters: {}
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: 2f8d06c7-a199-4a26-8634-9f71f84ce959
+      provider_name: create_echarts
+      provider_type: workflow
+      tool_label: create_echarts
+      tool_name: create_echarts
+      tool_parameters:
+        data: ''
+        title: ''
+  annotation_reply:
+    enabled: false
+  chat_prompt_config: {}
+  completion_prompt_config: {}
+  dataset_configs:
+    datasets:
+      datasets: []
+    reranking_enable: false
+    retrieval_model: multiple
+    top_k: 4
+  dataset_query_variable: ''
+  external_data_tools: []
+  file_upload:
+    allowed_file_extensions:
+    - .JPG
+    - .JPEG
+    - .PNG
+    - .GIF
+    - .WEBP
+    - .SVG
+    - .MP4
+    - .MOV
+    - .MPEG
+    - .MPGA
+    allowed_file_types: []
+    allowed_file_upload_methods:
+    - remote_url
+    - local_file
+    enabled: false
+    image:
+      detail: high
+      enabled: false
+      number_limits: 3
+      transfer_methods:
+      - remote_url
+      - local_file
+    number_limits: 3
+  model:
+    completion_params:
+      stop: []
+    mode: chat
+    name: want-gpt-4o
+    provider: langgenius/azure_openai/azure_openai
+  more_like_this:
+    enabled: false
+  opening_statement: ''
+  pre_prompt: '你是一個加密貨幣助理聊天機器人，根據用戶詢問的內容，使用設定的功能進行資料查詢，最終根據查詢的內容回應用戶。
+
+
+    以下是功能：
+
+
+    功能1: 獲取加密貨幣當前價格
+
+    用途: 查詢某種加密貨幣的當前價格。
+
+    調用 get_crypto_price_now 工具
+
+    參數說明:
+
+    coin: 加密貨幣完整名稱（如：bitcoin、ethereum）。
+
+
+    功能2: 獲取加密貨幣特定日期的價格
+
+    用途: 查詢某種加密貨幣在指定日期的歷史價格。
+
+    調用 get_crypto_history_price 工具
+
+    參數說明:
+
+    coin: 加密貨幣完整名稱（如：bitcoin、ethereum）。
+
+    date: 日期格式為 DD-MM-YYYY（如：30-01-2025）。
+
+
+    功能3: 維基百科查詢
+
+    用途: 根據關鍵字查詢相關資訊，並提供中文統整。
+
+    調用 wikipedia_search工具
+
+    參數說明:
+
+    data: 多個英文關鍵字（如：blockchain technology）。
+
+
+    功能4: 獲取最新新聞
+
+    調用 get_crypto_news工具
+
+    用途: 查詢加密貨幣相關的最新新聞資訊。
+
+
+    功能5: 繪製圖表
+
+    用途: 根據一段時間內的價格數據繪製折線圖。
+
+    幫我把獲取的幾天數據整理為以下格式，並做為參數傳入 create_echarts
+
+    注意：每次獲取api 請等待1~2秒鐘
+
+    最終返回output 直接作為輸出回覆給用戶
+
+    data 參數範例1：
+
+    [[\"2025-04-12\", \"83439.28818043756\"], [\"2025-04-13\", \"85305.09728392666\"],
+    [\"2025-04-14\", \"83600.82010054543\"]]
+
+    title參數範例1：
+
+    比特幣折線圖
+
+    data 參數範例2：
+
+    [[\"2025-04-12\", \"83439.28818043756\"], [\"2025-04-13\", \"85305.09728392666\"]]
+
+    title參數範例1：
+
+    以太坊折線圖
+
+
+
+
+    '
+  prompt_type: simple
+  retriever_resource:
+    enabled: true
+  sensitive_word_avoidance:
+    configs: []
+    enabled: false
+    type: ''
+  speech_to_text:
+    enabled: false
+  suggested_questions: []
+  suggested_questions_after_answer:
+    enabled: false
+  text_to_speech:
+    enabled: false
+    language: ''
+    voice: ''
+  user_input_form: []
+version: 0.1.5

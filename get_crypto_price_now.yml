@@ -1,0 +1,174 @@
+app:
+  description: 獲取當前價格
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: get_crypto_price_now
+  use_icon_as_answer_icon: false
+dependencies: []
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 100
+        file_size_limit: 100
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: http-request
+      id: 1744768468740-source-1744768496287-target
+      source: '1744768468740'
+      sourceHandle: source
+      target: '1744768496287'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: http-request
+        targetType: end
+      id: 1744768496287-source-1744768511387-target
+      source: '1744768496287'
+      sourceHandle: source
+      target: '1744768511387'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 開始
+        type: start
+        variables:
+        - label: coin
+          max_length: 30
+          options: []
+          required: true
+          type: text-input
+          variable: coin
+      height: 90
+      id: '1744768468740'
+      position:
+        x: -91.58281613502157
+        y: 199.25354753657518
+      positionAbsolute:
+        x: -91.58281613502157
+        y: 199.25354753657518
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        desc: ''
+        headers: ''
+        method: get
+        params: 'ids:{{#1744768468740.coin#}}
+
+          vs_currencies:usd'
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: HTTP 請求
+        type: http-request
+        url: https://api.coingecko.com/api/v3/simple/price
+        variables: []
+      height: 136
+      id: '1744768496287'
+      position:
+        x: 307.5779520095855
+        y: 139.13994470676465
+      positionAbsolute:
+        x: 307.5779520095855
+        y: 139.13994470676465
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1744768496287'
+          - body
+          variable: output
+        selected: false
+        title: 結束
+        type: end
+      height: 90
+      id: '1744768511387'
+      position:
+        x: 628.4357567133534
+        y: 225.807317654107
+      positionAbsolute:
+        x: 628.4357567133534
+        y: 225.807317654107
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 255.8028854865836
+      y: 185.13054740449525
+      zoom: 0.7971330112697599

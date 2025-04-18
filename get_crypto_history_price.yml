@@ -1,0 +1,180 @@
+app:
+  description: 歷史價格
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: get_crypto_history_price
+  use_icon_as_answer_icon: false
+dependencies: []
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 100
+        file_size_limit: 100
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: http-request
+      id: 1744768973857-source-1744768980299-target
+      source: '1744768973857'
+      sourceHandle: source
+      target: '1744768980299'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: http-request
+        targetType: end
+      id: 1744768980299-source-1744769041096-target
+      source: '1744768980299'
+      sourceHandle: source
+      target: '1744769041096'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 開始
+        type: start
+        variables:
+        - label: date
+          max_length: 50
+          options: []
+          required: true
+          type: text-input
+          variable: date
+        - label: coin
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: coin
+      height: 116
+      id: '1744768973857'
+      position:
+        x: 44.4067852168057
+        y: 202.07501468950375
+      positionAbsolute:
+        x: 44.4067852168057
+        y: 202.07501468950375
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        desc: ''
+        headers: ''
+        method: get
+        params: 'date:{{#1744768973857.date#}}
+
+          localization:false'
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: HTTP 請求
+        type: http-request
+        url: https://api.coingecko.com/api/v3/coins/{{#1744768973857.coin#}}/history
+        variables: []
+      height: 155
+      id: '1744768980299'
+      position:
+        x: 501.6213452917582
+        y: 181.41147363489966
+      positionAbsolute:
+        x: 501.6213452917582
+        y: 181.41147363489966
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1744768980299'
+          - body
+          variable: output
+        selected: false
+        title: 結束
+        type: end
+      height: 90
+      id: '1744769041096'
+      position:
+        x: 938
+        y: 167
+      positionAbsolute:
+        x: 938
+        y: 167
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 154.06708342808713
+      y: 187.81341668561743
+      zoom: 0.7508801099735026

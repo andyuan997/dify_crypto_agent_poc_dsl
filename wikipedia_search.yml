@@ -1,0 +1,423 @@
+app:
+  description: 維基百科查詢
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: wikipedia_search
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/azure_openai:0.0.8@59c461863a2753aaa07c3fad5831b2026232920342cced3781f94ae92d220eb4
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/wikipedia:0.0.3@c15c50172ae5abf681847180509a8df32d5944c3be3c91066d61c931b82b3470
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 100
+        file_size_limit: 100
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: parameter-extractor
+      id: 1744769416395-source-1744769432994-target
+      source: '1744769416395'
+      sourceHandle: source
+      target: '1744769432994'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: parameter-extractor
+        targetType: iteration
+      id: 1744769432994-source-1744769435051-target
+      source: '1744769432994'
+      sourceHandle: source
+      target: '1744769435051'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1744769435051'
+        sourceType: iteration-start
+        targetType: tool
+      id: 1744769435051start-source-1744769770366-target
+      source: 1744769435051start
+      sourceHandle: source
+      target: '1744769770366'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: end
+      id: 1744769435051-source-1744769781381-target
+      source: '1744769435051'
+      sourceHandle: source
+      target: '1744769781381'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 開始
+        type: start
+        variables:
+        - label: data
+          max_length: 100
+          options: []
+          required: true
+          type: text-input
+          variable: data
+      height: 90
+      id: '1744769416395'
+      position:
+        x: 82.3082859072419
+        y: 299.63948789357534
+      positionAbsolute:
+        x: 82.3082859072419
+        y: 299.63948789357534
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        instruction: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: want-gpt-4o
+          provider: langgenius/azure_openai/azure_openai
+        parameters:
+        - description: 提取關鍵字
+          name: keyword
+          required: true
+          type: array[string]
+        query:
+        - '1744769416395'
+        - data
+        reasoning_mode: prompt
+        selected: false
+        title: 參數提取器
+        type: parameter-extractor
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1744769432994'
+      position:
+        x: 421.3846844078189
+        y: 209.30936266921543
+      positionAbsolute:
+        x: 421.3846844078189
+        y: 209.30936266921543
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        error_handle_mode: terminated
+        is_parallel: false
+        iterator_selector:
+        - '1744769432994'
+        - keyword
+        output_selector:
+        - '1744769770366'
+        - text
+        output_type: array[string]
+        parallel_nums: 10
+        selected: true
+        start_node_id: 1744769435051start
+        title: 迭代
+        type: iteration
+        width: 388
+      height: 148
+      id: '1744769435051'
+      position:
+        x: 721.0069047376377
+        y: 62.44994306756979
+      positionAbsolute:
+        x: 721.0069047376377
+        y: 62.44994306756979
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 388
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1744769435051start
+      parentId: '1744769435051'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 745.0069047376377
+        y: 130.4499430675698
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        is_team_authorization: true
+        iteration_id: '1744769435051'
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: key words for searching
+            ja_JP: key words for searching
+            pt_BR: key words for searching
+            zh_Hans: 查询关键词
+          label:
+            en_US: Query string
+            ja_JP: Query string
+            pt_BR: Query string
+            zh_Hans: 查询语句
+          llm_description: key words for searching, this should be in the language
+            of "language" parameter
+          max: null
+          min: null
+          name: query
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The language of the Wikipedia to be searched
+            ja_JP: The language of the Wikipedia to be searched
+            pt_BR: The language of the Wikipedia to be searched
+            zh_Hans: 要搜索的维基百科语言
+          label:
+            en_US: Language
+            ja_JP: Language
+            pt_BR: Language
+            zh_Hans: 语言
+          llm_description: language of the wikipedia to be searched, only "de" for
+            German, "en" for English, "fr" for French, "hi" for Hindi, "ja" for Japanese,
+            "ko" for Korean, "pl" for Polish, "pt" for Portuguese, "ro" for Romanian,
+            "uk" for Ukrainian, "vi" for Vietnamese, and "zh" for Chinese are supported
+          max: null
+          min: null
+          name: language
+          options:
+          - label:
+              en_US: German
+              ja_JP: German
+              pt_BR: German
+              zh_Hans: 德语
+            value: de
+          - label:
+              en_US: English
+              ja_JP: English
+              pt_BR: English
+              zh_Hans: 英语
+            value: en
+          - label:
+              en_US: French
+              ja_JP: French
+              pt_BR: French
+              zh_Hans: 法语
+            value: fr
+          - label:
+              en_US: Hindi
+              ja_JP: Hindi
+              pt_BR: Hindi
+              zh_Hans: 印地语
+            value: hi
+          - label:
+              en_US: Japanese
+              ja_JP: Japanese
+              pt_BR: Japanese
+              zh_Hans: 日语
+            value: ja
+          - label:
+              en_US: Korean
+              ja_JP: Korean
+              pt_BR: Korean
+              zh_Hans: 韩语
+            value: ko
+          - label:
+              en_US: Polish
+              ja_JP: Polish
+              pt_BR: Polish
+              zh_Hans: 波兰语
+            value: pl
+          - label:
+              en_US: Portuguese
+              ja_JP: Portuguese
+              pt_BR: Portuguese
+              zh_Hans: 葡萄牙语
+            value: pt
+          - label:
+              en_US: Romanian
+              ja_JP: Romanian
+              pt_BR: Romanian
+              zh_Hans: 罗马尼亚语
+            value: ro
+          - label:
+              en_US: Ukrainian
+              ja_JP: Ukrainian
+              pt_BR: Ukrainian
+              zh_Hans: 乌克兰语
+            value: uk
+          - label:
+              en_US: Vietnamese
+              ja_JP: Vietnamese
+              pt_BR: Vietnamese
+              zh_Hans: 越南语
+            value: vi
+          - label:
+              en_US: Chinese
+              ja_JP: Chinese
+              pt_BR: Chinese
+              zh_Hans: 中文
+            value: zh
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        params:
+          language: ''
+          query: ''
+        provider_id: langgenius/wikipedia/wikipedia
+        provider_name: langgenius/wikipedia/wikipedia
+        provider_type: builtin
+        selected: false
+        title: WikipediaSearch
+        tool_configurations: {}
+        tool_label: WikipediaSearch
+        tool_name: wikipedia_search
+        tool_parameters:
+          language:
+            type: mixed
+            value: English
+          query:
+            type: mixed
+            value: '{{#1744769435051.item#}}'
+        type: tool
+      height: 54
+      id: '1744769770366'
+      parentId: '1744769435051'
+      position:
+        x: 111.5640603779218
+        y: 65
+      positionAbsolute:
+        x: 832.5709651155595
+        y: 127.44994306756979
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      zIndex: 1002
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1744769435051'
+          - output
+          variable: output
+        selected: false
+        title: 結束
+        type: end
+      height: 90
+      id: '1744769781381'
+      position:
+        x: 1148.46198021004
+        y: -38.90501793524491
+      positionAbsolute:
+        x: 1148.46198021004
+        y: -38.90501793524491
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 14.977637209172315
+      y: 212.37820923548125
+      zoom: 0.5300331822340272
